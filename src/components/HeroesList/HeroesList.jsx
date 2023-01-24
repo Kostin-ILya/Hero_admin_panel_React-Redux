@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useHTTP from '../../hooks/useHTTP'
 
@@ -6,6 +6,7 @@ import {
   heroesFetching,
   heroesFetched,
   heroesFetchingError,
+  deleteHero,
 } from '../../actions'
 import HeroesListItem from '../HeroesListItem/HeroesListItem'
 import Spinner from '../Spinner/Spinner'
@@ -15,11 +16,18 @@ const HeroesList = () => {
   const dispatch = useDispatch()
   const { request } = useHTTP()
 
+  const requestUrl = 'http://localhost:3001/heroes/'
+
   useEffect(() => {
     dispatch(heroesFetching())
-    request('http://localhost:3001/heroes')
+    request(requestUrl)
       .then((data) => dispatch(heroesFetched(data)))
       .catch(() => dispatch(heroesFetchingError()))
+  }, [])
+
+  const onDeleteHero = useCallback((id) => {
+    dispatch(deleteHero(id))
+    request(`${requestUrl}/${id}`, 'delete')
   }, [])
 
   if (heroesLoadingStatus === 'loading') {
@@ -34,12 +42,23 @@ const HeroesList = () => {
     }
 
     return arr.map(({ id, ...props }) => {
-      return <HeroesListItem key={id} {...props} />
+      return (
+        <HeroesListItem
+          key={id}
+          id={id}
+          onDeleteHero={onDeleteHero}
+          {...props}
+        />
+      )
     })
   }
 
   const elements = renderHeroesList(heroes)
-  return <ul>{elements}</ul>
+  return (
+    <>
+      <ul>{elements}</ul>
+    </>
+  )
 }
 
 export default HeroesList

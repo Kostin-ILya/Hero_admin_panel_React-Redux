@@ -8,12 +8,15 @@ const useHTTP = () => {
       return response.data
     } catch (error) {
       if (error.response) {
-        console.log('Status:', error.response.status, error.response.data)
-      } else if (error.request) {
-        console.log('Error!', error.request)
-      } else {
-        console.log('Error!', error.message)
+        console.log('Response: ', error.response)
       }
+      if (error.request) {
+        console.log('Request: ', error.request)
+      }
+
+      console.log(error.toJSON())
+
+      throw error
     }
   }
 
