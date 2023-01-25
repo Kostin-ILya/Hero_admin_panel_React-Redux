@@ -27,7 +27,7 @@ const HeroesList = () => {
 
   const onDeleteHero = useCallback((id) => {
     dispatch(deleteHero(id))
-    request(`${requestUrl}/${id}`, 'delete')
+    request(`${requestUrl}${id}`, 'delete')
   }, [])
 
   if (heroesLoadingStatus === 'loading') {

@@ -21,4 +21,17 @@ const deleteHero = (id) => {
   }
 }
 
-export { heroesFetching, heroesFetched, heroesFetchingError, deleteHero }
+const addHero = (newHero) => {
+  return {
+    type: 'ADD_HERO',
+    payload: { newHero },
+  }
+}
+
+export {
+  heroesFetching,
+  heroesFetched,
+  heroesFetchingError,
+  deleteHero,
+  addHero,
+}
