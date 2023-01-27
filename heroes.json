@@ -19,5 +19,31 @@
       "element": "water"
     }
   ],
-  "filters": ["all", "fire", "water", "wind", "earth"]
+  "filters": [
+    {
+      "value": "all",
+      "label": "Все",
+      "clazz": "btn-outline-dark"
+    },
+    {
+      "value": "fire",
+      "label": "Огонь",
+      "clazz": "btn-danger"
+    },
+    {
+      "value": "water",
+      "label": "Вода",
+      "clazz": "btn-primary"
+    },
+    {
+      "value": "wind",
+      "label": "Ветер",
+      "clazz": "btn-success"
+    },
+    {
+      "value": "earth",
+      "label": "Земля",
+      "clazz": "btn-secondary"
+    }
+  ]
 }
