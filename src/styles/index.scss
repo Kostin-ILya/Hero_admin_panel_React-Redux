@@ -16,3 +16,22 @@ ul {
   color: red;
   margin-top: 5px;
 }
+
+.hero__item-enter {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+.hero__item-enter-active {
+  opacity: 1;
+  transition: all 500ms ease-in;
+  transform: translateX(0);
+}
+.hero__item-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+.hero__item-exit-active {
+  opacity: 0;
+  transition: all 500ms ease-in;
+  transform: translateX(-100%);
+}

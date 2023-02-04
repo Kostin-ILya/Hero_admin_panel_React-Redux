@@ -5,29 +5,29 @@ const HeroesListItem = ({ id, name, description, element, onDeleteHero }) => {
 
   switch (element) {
     case 'fire':
-      elementClassName = 'bg-danger bg-gradient'
+      elementClassName = 'bg-danger'
       break
     case 'water':
-      elementClassName = 'bg-primary bg-gradient'
+      elementClassName = 'bg-primary'
       break
     case 'wind':
-      elementClassName = 'bg-success bg-gradient'
+      elementClassName = 'bg-success'
       break
     case 'earth':
-      elementClassName = 'bg-secondary bg-gradient'
+      elementClassName = 'bg-secondary'
       break
     default:
-      elementClassName = 'bg-warning bg-gradient'
+      elementClassName = 'bg-warning'
   }
 
   return (
     <li
-      className={`card flex-row mb-4 shadow-lg text-white ${elementClassName}`}
+      className={`card flex-row mb-4 shadow-lg text-white bg-gradient ${elementClassName}`}
     >
       <img
         src="http://www.stpaulsteinbach.org/wp-content/uploads/2014/09/unknown-hero.jpg"
         className="img-fluid w-25 d-inline"
-        alt="unknown hero"
+        alt={name}
         style={{ objectFit: 'cover' }}
       />
       <div className="card-body">

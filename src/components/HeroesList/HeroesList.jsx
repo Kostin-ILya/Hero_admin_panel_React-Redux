@@ -1,18 +1,22 @@
 import { useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+
 import useHTTP from '../../hooks/useHTTP'
 
 import {
   heroesFetching,
   heroesFetched,
   heroesFetchingError,
-  deleteHero,
+  heroDeleted,
 } from '../../actions'
 import HeroesListItem from '../HeroesListItem/HeroesListItem'
 import Spinner from '../Spinner/Spinner'
 
 const HeroesList = () => {
-  const { heroes, heroesLoadingStatus } = useSelector((state) => state)
+  const { heroes, heroesLoadingStatus, activeFilter } = useSelector(
+    (state) => state
+  )
   const dispatch = useDispatch()
   const { request } = useHTTP()
 
@@ -26,8 +30,9 @@ const HeroesList = () => {
   }, [])
 
   const onDeleteHero = useCallback((id) => {
-    dispatch(deleteHero(id))
     request(`${requestUrl}${id}`, 'delete')
+      .then(() => dispatch(heroDeleted(id)))
+      .catch((e) => console.error('Fetching error', e))
   }, [])
 
   if (heroesLoadingStatus === 'loading') {
@@ -38,25 +43,31 @@ const HeroesList = () => {
 
   const renderHeroesList = (arr) => {
     if (arr.length === 0) {
-      return <h5 className="text-center mt-5">Героев пока нет</h5>
+      return (
+        <CSSTransition timeout={500} classNames="hero__item">
+          <h5 className="text-center mt-5">Героев пока нет</h5>
+        </CSSTransition>
+      )
     }
 
-    return arr.map(({ id, ...props }) => {
-      return (
-        <HeroesListItem
-          key={id}
-          id={id}
-          onDeleteHero={onDeleteHero}
-          {...props}
-        />
-      )
-    })
+    return arr
+      .filter(({ element }) => {
+        return activeFilter === 'all' || element === activeFilter
+      })
+      .map(({ id, ...props }) => {
+        return (
+          <CSSTransition key={id} timeout={500} classNames="hero__item">
+            <HeroesListItem id={id} onDeleteHero={onDeleteHero} {...props} />
+          </CSSTransition>
+        )
+      })
   }
 
-  const elements = renderHeroesList(heroes)
   return (
     <>
-      <ul>{elements}</ul>
+      <TransitionGroup component={'ul'}>
+        {renderHeroesList(heroes)}
+      </TransitionGroup>
     </>
   )
 }
