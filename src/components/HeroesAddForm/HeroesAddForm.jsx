@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
-import { nanoid } from 'nanoid'
+import { nanoid } from '@reduxjs/toolkit'
 
 import useHTTP from '../../hooks/useHTTP'
 
