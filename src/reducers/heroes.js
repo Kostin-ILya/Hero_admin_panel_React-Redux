@@ -30,7 +30,7 @@ const heroes = (state = initialState, action) => {
     case 'HERO_CREATED':
       return {
         ...state,
-        heroes: [...state.heroes, action.payload.newHero],
+        heroes: [...state.heroes, action.payload],
       }
     default:
       return state
