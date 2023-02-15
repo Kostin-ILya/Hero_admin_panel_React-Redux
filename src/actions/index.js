@@ -31,12 +31,12 @@ export {
   heroesFetching,
   heroesFetched,
   heroesFetchingError,
+  heroDeleted,
+  heroCreated,
   filtersFetching,
   filtersFetched,
   filtersFetchingError,
   activeFilterChanged,
-  heroDeleted,
-  heroCreated,
 }
 
 // const heroesFetching = () => {
