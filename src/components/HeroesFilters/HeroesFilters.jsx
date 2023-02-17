@@ -3,11 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { clsx } from 'clsx'
 
-import useHTTP from '../../hooks/useHTTP'
-
 import Spinner from '../Spinner/Spinner'
 
-import { fetchFilters, activeFilterChanged } from '../../actions'
+import { fetchFilters, activeFilterChanged } from '../../features/filtersSlice'
 
 const HeroesFilters = () => {
   const { filters, activeFilter, filtersLoadingStatus } = useSelector(
@@ -15,10 +13,8 @@ const HeroesFilters = () => {
   )
   const dispatch = useDispatch()
 
-  const { request } = useHTTP()
-
   useEffect(() => {
-    dispatch(fetchFilters(request))
+    dispatch(fetchFilters())
   }, [])
 
   const onChangeActiveFilter = (filter) => {

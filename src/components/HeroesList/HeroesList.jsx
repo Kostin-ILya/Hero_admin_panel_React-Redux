@@ -5,7 +5,7 @@ import { createSelector } from '@reduxjs/toolkit'
 
 import useHTTP from '../../hooks/useHTTP'
 
-import { fetchHeroes, heroDeleted } from '../../actions'
+import { fetchHeroes, heroDeleted } from '../../features/heroesSlice'
 import HeroesListItem from '../HeroesListItem/HeroesListItem'
 import Spinner from '../Spinner/Spinner'
 
@@ -28,7 +28,7 @@ const HeroesList = () => {
   const { request } = useHTTP()
 
   useEffect(() => {
-    dispatch(fetchHeroes(request))
+    dispatch(fetchHeroes())
   }, [])
 
   const onDeleteHero = useCallback((id) => {

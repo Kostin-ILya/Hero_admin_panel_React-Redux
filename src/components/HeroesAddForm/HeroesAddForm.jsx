@@ -4,7 +4,7 @@ import { nanoid } from '@reduxjs/toolkit'
 
 import useHTTP from '../../hooks/useHTTP'
 
-import { heroCreated } from '../../actions'
+import { heroCreated } from '../../features/heroesSlice'
 
 const HeroesAddForm = () => {
   const { filters, filtersLoadingStatus } = useSelector(
