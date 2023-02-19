@@ -5,12 +5,19 @@ import { clsx } from 'clsx'
 
 import Spinner from '../Spinner/Spinner'
 
-import { fetchFilters, activeFilterChanged } from '../../features/filtersSlice'
+import {
+  fetchFilters,
+  activeFilterChanged,
+  selectAll as selectAllFilters,
+} from '../../features/filtersSlice'
 
 const HeroesFilters = () => {
-  const { filters, activeFilter, filtersLoadingStatus } = useSelector(
+  const { activeFilter, filtersLoadingStatus } = useSelector(
     (state) => state.filters
   )
+
+  const filters = useSelector(selectAllFilters)
+
   const dispatch = useDispatch()
 
   useEffect(() => {

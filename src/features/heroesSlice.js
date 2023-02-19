@@ -1,28 +1,30 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import {
+  createSlice,
+  createAsyncThunk,
+  createEntityAdapter,
+  createSelector,
+} from '@reduxjs/toolkit'
 
 import useHTTP from '../hooks/useHTTP'
 
-const fetchHeroes = createAsyncThunk('heroes/fetchHeroes', () => {
-  const { request } = useHTTP()
+const heroesAdapter = createEntityAdapter()
 
-  return request('http://localhost:3001/heroes/')
+const { request } = useHTTP()
+
+const fetchHeroes = createAsyncThunk('heroes/fetchHeroes', async () => {
+  return await request('http://localhost:3001/heroes/')
 })
 
-const initialState = {
-  heroes: [],
+const initialState = heroesAdapter.getInitialState({
   heroesLoadingStatus: 'idle',
-}
+})
 
 const heroesSlice = createSlice({
   name: 'heroes',
   initialState,
   reducers: {
-    heroCreated: (state, action) => {
-      state.heroes.push(action.payload)
-    },
-    heroDeleted: (state, action) => {
-      state.heroes = state.heroes.filter((hero) => hero.id !== action.payload)
-    },
+    heroCreated: heroesAdapter.addOne,
+    heroDeleted: heroesAdapter.removeOne,
   },
   extraReducers: (builder) => {
     builder
@@ -31,7 +33,8 @@ const heroesSlice = createSlice({
       })
       .addCase(fetchHeroes.fulfilled, (state, action) => {
         state.heroesLoadingStatus = 'idle'
-        state.heroes = action.payload
+
+        heroesAdapter.setAll(state, action.payload)
       })
       .addCase(fetchHeroes.rejected, (state) => {
         state.heroesLoadingStatus = 'error'
@@ -40,9 +43,21 @@ const heroesSlice = createSlice({
   },
 })
 
+const { selectAll: selectAllHeroes } = heroesAdapter.getSelectors(
+  (state) => state.heroes
+)
+
+const filteredHeroesSelector = createSelector(
+  selectAllHeroes,
+  (state) => state.filters.activeFilter,
+  (heroes, activeFilter) =>
+    activeFilter === 'all'
+      ? heroes
+      : heroes.filter((hero) => hero.element === activeFilter)
+)
+
 const { heroCreated, heroDeleted } = heroesSlice.actions
 const { reducer } = heroesSlice
 
-export { fetchHeroes, heroCreated, heroDeleted }
-
+export { fetchHeroes, heroCreated, heroDeleted, filteredHeroesSelector }
 export default reducer

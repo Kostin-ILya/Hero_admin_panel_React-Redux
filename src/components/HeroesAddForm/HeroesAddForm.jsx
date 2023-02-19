@@ -5,13 +5,15 @@ import { nanoid } from '@reduxjs/toolkit'
 import useHTTP from '../../hooks/useHTTP'
 
 import { heroCreated } from '../../features/heroesSlice'
+import { selectAll as selectAllFilters } from '../../features/filtersSlice'
 
 const HeroesAddForm = () => {
-  const { filters, filtersLoadingStatus } = useSelector(
-    (state) => state.filters
+  const filtersLoadingStatus = useSelector(
+    (state) => state.filters.filtersLoadingStatus
   )
+  const filters = useSelector(selectAllFilters)
+
   const dispatch = useDispatch()
-  const { request } = useHTTP()
 
   const {
     register,
@@ -19,6 +21,8 @@ const HeroesAddForm = () => {
     handleSubmit,
     reset,
   } = useForm({ mode: 'onBlur' })
+
+  const { request } = useHTTP()
 
   const onSubmit = async ({ name, text, element }) => {
     const newHero = { id: nanoid(), name, description: text, element }

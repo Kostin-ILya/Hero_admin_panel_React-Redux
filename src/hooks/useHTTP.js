@@ -14,8 +14,6 @@ const useHTTP = () => {
         console.log('Request: ', error.request)
       }
 
-      // console.log(error.toJSON())
-
       throw error.toJSON()
     }
   }
