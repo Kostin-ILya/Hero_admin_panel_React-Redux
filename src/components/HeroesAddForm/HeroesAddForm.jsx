@@ -1,19 +1,14 @@
-import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { nanoid } from '@reduxjs/toolkit'
 
-import useHTTP from '../../hooks/useHTTP'
+import { toast } from 'react-toastify'
 
-import { heroCreated } from '../../features/heroesSlice'
-import { selectAll as selectAllFilters } from '../../features/filtersSlice'
+import { useGetFiltersQuery, useAddHeroMutation } from '../../api/api'
 
 const HeroesAddForm = () => {
-  const filtersLoadingStatus = useSelector(
-    (state) => state.filters.filtersLoadingStatus
-  )
-  const filters = useSelector(selectAllFilters)
+  const { data: filters, isError, isLoading, isSuccess } = useGetFiltersQuery()
 
-  const dispatch = useDispatch()
+  const [addHero] = useAddHeroMutation()
 
   const {
     register,
@@ -22,14 +17,13 @@ const HeroesAddForm = () => {
     reset,
   } = useForm({ mode: 'onBlur' })
 
-  const { request } = useHTTP()
-
   const onSubmit = async ({ name, text, element }) => {
     const newHero = { id: nanoid(), name, description: text, element }
 
-    await request('http://localhost:3001/heroes', 'post', newHero)
-      .then(() => dispatch(heroCreated(newHero)))
-      .catch((e) => console.error('Fetching error', e))
+    await addHero(newHero)
+      .unwrap()
+      .then(() => toast.success(`${name} added!`))
+      .catch(() => toast.error('Adding error'))
 
     reset()
   }
@@ -93,11 +87,12 @@ const HeroesAddForm = () => {
           id="element"
         >
           <option value="title">Я владею элементом...</option>
-          {filtersLoadingStatus === 'loading' ? (
+          {isLoading ? (
             <option>Loading</option>
-          ) : filtersLoadingStatus === 'error' ? (
+          ) : isError === 'error' ? (
             <option>Options loading error</option>
           ) : (
+            isSuccess &&
             filters.map(({ value, label }) => {
               if (value === 'all') return
               return (
