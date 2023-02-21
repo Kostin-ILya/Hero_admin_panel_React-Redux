@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
+import { toast } from 'react-toastify'
 import { clsx } from 'clsx'
 
 import Spinner from '../Spinner/Spinner'
@@ -31,6 +31,7 @@ const HeroesFilters = () => {
   if (filtersLoadingStatus === 'loading') {
     return <Spinner />
   } else if (filtersLoadingStatus === 'error') {
+    toast.error('Loading Error')
     return <h5 className="text-center mt-5">Ошибка загрузки</h5>
   }
 

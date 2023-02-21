@@ -39,7 +39,7 @@ const HeroesListItem = ({ id, name, description, element, onDeleteHero }) => {
           type="button"
           className="btn-close btn-close"
           aria-label="Close"
-          onClick={() => onDeleteHero(id)}
+          onClick={() => onDeleteHero(id, name)}
         ></button>
       </span>
     </li>

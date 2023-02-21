@@ -1,7 +1,10 @@
+import { ToastContainer } from 'react-toastify'
+
 import HeroesList from '../HeroesList/HeroesList'
 import HeroesAddForm from '../HeroesAddForm/HeroesAddForm'
 import HeroesFilters from '../HeroesFilters/HeroesFilters'
 
+import 'react-toastify/dist/ReactToastify.min.css'
 import './app.scss'
 
 const App = () => {
@@ -14,6 +17,7 @@ const App = () => {
           <HeroesFilters />
         </div>
       </div>
+      <ToastContainer />
     </main>
   )
 }

@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { nanoid } from '@reduxjs/toolkit'
+import { toast } from 'react-toastify'
 
 import useHTTP from '../../hooks/useHTTP'
 
@@ -29,7 +30,8 @@ const HeroesAddForm = () => {
 
     await request('http://localhost:3001/heroes', 'post', newHero)
       .then(() => dispatch(heroCreated(newHero)))
-      .catch((e) => console.error('Fetching error', e))
+      .then(() => toast.success(`${name} added!`))
+      .catch(() => toast.error('Adding error'))
 
     reset()
   }

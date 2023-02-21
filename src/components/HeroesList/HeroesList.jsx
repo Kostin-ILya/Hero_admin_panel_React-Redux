@@ -1,6 +1,7 @@
 import { useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { toast } from 'react-toastify'
 
 import useHTTP from '../../hooks/useHTTP'
 
@@ -25,15 +26,17 @@ const HeroesList = () => {
   }, [])
 
   const { request } = useHTTP()
-  const onDeleteHero = useCallback((id) => {
+  const onDeleteHero = useCallback((id, name) => {
     request(`http://localhost:3001/heroes/${id}`, 'delete')
       .then(() => dispatch(heroDeleted(id)))
-      .catch((e) => console.error('Fetching error', e))
+      .then(() => toast.success(`${name} deleted!`))
+      .catch(() => toast.error('Deleting Error'))
   }, [])
 
   if (heroesLoadingStatus === 'loading') {
     return <Spinner />
   } else if (heroesLoadingStatus === 'error') {
+    toast.error('Loading Error')
     return <h5 className="text-center mt-5">Ошибка загрузки</h5>
   }
 
