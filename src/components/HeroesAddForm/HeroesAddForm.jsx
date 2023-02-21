@@ -1,11 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
-import { nanoid } from '@reduxjs/toolkit'
-import { toast } from 'react-toastify'
 
-import useHTTP from '../../hooks/useHTTP'
-
-import { heroCreated } from '../../features/heroesSlice'
+import { addHero } from '../../features/heroesSlice'
 import { selectAll as selectAllFilters } from '../../features/filtersSlice'
 
 const HeroesAddForm = () => {
@@ -23,16 +19,10 @@ const HeroesAddForm = () => {
     reset,
   } = useForm({ mode: 'onBlur' })
 
-  const { request } = useHTTP()
-
   const onSubmit = async ({ name, text, element }) => {
-    const newHero = { id: nanoid(), name, description: text, element }
+    const newHero = { name, description: text, element }
 
-    await request('http://localhost:3001/heroes', 'post', newHero)
-      .then(() => dispatch(heroCreated(newHero)))
-      .then(() => toast.success(`${name} added!`))
-      .catch(() => toast.error('Adding error'))
-
+    await dispatch(addHero(newHero))
     reset()
   }
 

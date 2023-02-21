@@ -3,11 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { toast } from 'react-toastify'
 
-import useHTTP from '../../hooks/useHTTP'
-
 import {
   fetchHeroes,
-  heroDeleted,
+  deleteHero,
   filteredHeroesSelector,
 } from '../../features/heroesSlice'
 import HeroesListItem from '../HeroesListItem/HeroesListItem'
@@ -25,12 +23,8 @@ const HeroesList = () => {
     dispatch(fetchHeroes())
   }, [])
 
-  const { request } = useHTTP()
   const onDeleteHero = useCallback((id, name) => {
-    request(`http://localhost:3001/heroes/${id}`, 'delete')
-      .then(() => dispatch(heroDeleted(id)))
-      .then(() => toast.success(`${name} deleted!`))
-      .catch(() => toast.error('Deleting Error'))
+    dispatch(deleteHero({ id, name }))
   }, [])
 
   if (heroesLoadingStatus === 'loading') {

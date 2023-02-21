@@ -13,7 +13,7 @@ const filtersAdapter = createEntityAdapter({
 const fetchFilters = createAsyncThunk('filters/fetchFilters', () => {
   const { request } = useHTTP()
 
-  return request('http://localhost:3001/filters/')
+  return request('https://63e513d9c04baebbcdb33a8e.mockapi.io/filters')
 })
 
 const initialState = filtersAdapter.getInitialState({
