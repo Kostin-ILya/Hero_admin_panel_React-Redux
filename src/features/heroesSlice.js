@@ -18,33 +18,35 @@ const fetchHeroes = createAsyncThunk('heroes/fetchHeroes', async () => {
 const deleteHero = createAsyncThunk(
   'heroes/deleteHero',
   async ({ id, name }) => {
-    try {
-      const res = await request(
-        `https://63e513d9c04baebbcdb33a8e.mockapi.io/heroes/${id}`,
-        'DELETE'
+    return toast
+      .promise(
+        request(
+          `https://63e513d9c04baebbcdb33a8e.mockapi.io/heroes/${id}`,
+          'DELETE'
+        ),
+        {
+          pending: 'Deleting a hero...',
+          success: `${name} deleted!`,
+          error: 'Deleting Error',
+        }
       )
-      toast.success(`${name} deleted!`)
-      return res.id
-    } catch (e) {
-      toast.error('Deleting Error')
-      console.log(e)
-    }
+      .then((res) => res.id)
   }
 )
 
 const addHero = createAsyncThunk('heroes/addHero', async (newHero) => {
-  try {
-    const res = await request(
+  return toast.promise(
+    request(
       'https://63e513d9c04baebbcdb33a8e.mockapi.io/heroes',
       'POST',
       newHero
-    )
-    toast.success(`${newHero.name} added!`)
-    return res
-  } catch (e) {
-    toast.error('Adding error')
-    console.log(e)
-  }
+    ),
+    {
+      pending: 'Adding a hero...',
+      success: `${newHero.name} added!`,
+      error: 'Adding error',
+    }
+  )
 })
 
 const initialState = heroesAdapter.getInitialState({

@@ -1,16 +1,112 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+ul {
+  padding: 0 !important;
+}
+
+.errors__msg {
+  color: red;
+  margin-top: 5px;
+}
+
+.hero__item-enter {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+.hero__item-enter-active {
+  opacity: 1;
+  transition: all 500ms ease-in;
+  transform: translateX(0);
+}
+.hero__item-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+.hero__item-exit-active {
+  opacity: 0;
+  transition: all 500ms ease-in;
+  transform: translateX(-100%);
+}
+
 .app {
-    height: 100vh;
-    overflow-y: scroll;
-    background: url('../../assets/hero_bg.jpg') center / cover no-repeat;
+  height: 100vh;
+  overflow-y: scroll;
+  background: url('../../assets/hero_bg.jpg') center / cover no-repeat;
 }
 
 .content {
-    display: grid;
-    grid-template-columns: 560px 440px;
-    max-width: 1040px;
-    margin: 0 auto;
-    padding-top: 50px;
-    &__interactive {
-        padding-left: 40px;
+  display: grid;
+  grid-template-columns: 560px 440px;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding-top: 50px;
+  &__interactive {
+    padding-left: 40px;
+  }
+  .filter-title {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 1199px) {
+  .content {
+    max-width: 960px;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 991px) {
+  .content {
+    max-width: 720px;
+  }
+  .card-body {
+    .card-title {
+      font-size: 18px;
     }
+    p {
+      font-size: 13px;
+    }
+  }
+}
+@media (max-width: 767px) {
+  .content {
+    max-width: 540px;
+    grid-template-columns: auto;
+    &__interactive {
+      padding: 0;
+    }
+    .filter-title {
+      text-align: center;
+    }
+    .btn-group {
+      display: flex;
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .app {
+    max-width: 100%;
+    padding: 10px;
+    .btn-group {
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+  }
+  .content {
+    max-width: 100%;
+    padding: 10px;
+  }
+  .content__interactive {
+    form {
+      padding: 8px !important;
+    }
+  }
+  .badge.bg-light.start-100 {
+    left: 0 !important;
+  }
 }
