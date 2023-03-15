@@ -1,5 +1,7 @@
 import { memo } from 'react'
 
+import hero_img from '../../assets/unknown-hero.jpg'
+
 const HeroesListItem = ({ id, name, description, element, onDeleteHero }) => {
   let elementClassName
 
@@ -25,7 +27,7 @@ const HeroesListItem = ({ id, name, description, element, onDeleteHero }) => {
       className={`card flex-row mb-4 shadow-lg text-white bg-gradient ${elementClassName}`}
     >
       <img
-        src="http://www.stpaulsteinbach.org/wp-content/uploads/2014/09/unknown-hero.jpg"
+        src={hero_img}
         className="img-fluid w-25 d-inline"
         alt={name}
         style={{ objectFit: 'cover' }}
